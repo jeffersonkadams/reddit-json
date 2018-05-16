@@ -4,18 +4,12 @@ $(document).ready(function(){ //checks to make sure HTML is done loading before 
   $.get('https://www.reddit.com/r/funny/.json').done(function(responseBody){
     console.log("success");
 
-    var data = responseBody.data.children;
-    console.log(data.length);
-    console.log(data);
+    var payload = responseBody.data.children; //all of the info from reddit that I need
 
-    for (var i = 0; i < data.length; i++){
-      var title = responseBody.data.children[i].data.title;
-      var url = responseBody.data.children[i].data.url;
-
-      var newElement = $("<p>").html(title);
-      $(document.body).append(newElement);
-      // $("body").append(responseBody.data.children[i].data.title);
-    }
-    // $("body").append(responseBody.data.children[0].data.title);
+    payload.forEach(function(i){
+      $('.container').append('<div class="post"><p class = "title">' + i.data.title +
+      '</p><p class = "author">Posted by: ' + i.data.author + ' to /r/' + i.data.subreddit +
+      '</p><p class = "score">Score: +' + i.data.score + '<br><img src=' + i.data.thumbnail + '></div>');
+    })
   });
 });
